@@ -68,100 +68,87 @@ class _MovieListState extends State<MovieList> {
                   itemBuilder: (BuildContext context, int index) {
                     movieList = snap.data;
                     Movies movieData = movieList.data.movies[index];
-                    return BounceInLeft(
-                      duration: Duration(milliseconds: 800),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(() => MovieDetail(movieData));
-                        },
-                        child: Container(
-                          margin:
-                              EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(5),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(4, 4),
-                                blurRadius: 7,
-                              )
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    offset: Offset(2, 2),
-                                    blurRadius: 7,
-                                  )
-                                ], color: Colors.grey[300]),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  child: BounceInLeft(
-                                    duration: Duration(milliseconds: 800),
-                                    child: Image.network(
-                                      movieData.thumbnail,
-                                      fit: BoxFit.cover,
-                                      height: Get.height / 6,
-                                      width: Get.height / 8,
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(() => MovieDetail(movieData));
+                      },
+                      child: Container(
+                        margin:
+                            EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              offset: Offset(4, 4),
+                              blurRadius: 7,
+                            )
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.2),
+                                  offset: Offset(2, 2),
+                                  blurRadius: 7,
+                                )
+                              ], color: Colors.grey[300]),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Image.network(
+                                  movieData.thumbnail,
+                                  fit: BoxFit.cover,
+                                  height: Get.height / 6,
+                                  width: Get.height / 8,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: Get.width / 10,
+                            ),
+                            Text(
+                              movieData.name,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      offset: Offset(2, 2),
+                                      blurRadius: 2,
                                     ),
-                                  ),
+                                  ],
+                                  fontSize: 20,
+                                  color: Colors.blue[900]),
+                            ),
+                            Spacer(),
+                            Container(
+                              alignment: Alignment.center,
+                              width: Get.width / 5,
+                              height: Get.height / 6,
+                              decoration: BoxDecoration(
+                                color: Colors.blue[900],
+                                borderRadius: BorderRadius.horizontal(
+                                  right: Radius.circular(5),
                                 ),
                               ),
-                              SizedBox(
-                                width: Get.width / 10,
+                              child: Text(
+                                movieData.year,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black.withOpacity(0.2),
+                                        offset: Offset(2, 2),
+                                        blurRadius: 2,
+                                      ),
+                                    ],
+                                    color: Colors.white),
                               ),
-                              BounceInDown(
-                                duration: Duration(milliseconds: 800),
-                                child: Text(
-                                  movieData.name,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      shadows: [
-                                        Shadow(
-                                          color: Colors.black.withOpacity(0.1),
-                                          offset: Offset(2, 2),
-                                          blurRadius: 2,
-                                        ),
-                                      ],
-                                      fontSize: 20,
-                                      color: Colors.blue[900]),
-                                ),
-                              ),
-                              Spacer(),
-                              Container(
-                                alignment: Alignment.center,
-                                width: Get.width / 5,
-                                height: Get.height / 6,
-                                decoration: BoxDecoration(
-                                  color: Colors.blue[900],
-                                  borderRadius: BorderRadius.horizontal(
-                                    right: Radius.circular(5),
-                                  ),
-                                ),
-                                child: BounceInRight(
-                                  duration: Duration(milliseconds: 800),
-                                  child: Text(
-                                    movieData.year,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        shadows: [
-                                          Shadow(
-                                            color:
-                                                Colors.black.withOpacity(0.2),
-                                            offset: Offset(2, 2),
-                                            blurRadius: 2,
-                                          ),
-                                        ],
-                                        color: Colors.white),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       ),
                     );

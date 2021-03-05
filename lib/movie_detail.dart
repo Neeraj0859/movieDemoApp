@@ -140,13 +140,6 @@ class _MovieDetailState extends State<MovieDetail> {
                     padding: EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.book,
-                          color: Colors.blue[600],
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
                         Expanded(
                           child: Container(
                             child: Text(
@@ -154,14 +147,6 @@ class _MovieDetailState extends State<MovieDetail> {
                                   ? "Not Found"
                                   : widget.movies.description,
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black.withOpacity(0.1),
-                                    offset: Offset(2, 2),
-                                    blurRadius: 2,
-                                  ),
-                                ],
                                 fontSize: 18,
                                 color: Colors.blue[600],
                               ),
