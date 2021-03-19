@@ -1,4 +1,4 @@
-# great_movie
+# Demo Movie App PWA
 
 A new Flutter application.
 
