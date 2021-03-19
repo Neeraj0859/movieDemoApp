@@ -1,6 +1,7 @@
 # Demo Movie App PWA
 
-A new Flutter application.
+PWA link: https://greatmovies.netlify.app/
+
 
 ## Getting Started
 
