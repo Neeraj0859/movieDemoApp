@@ -1,375 +1,344 @@
+import 'dart:ui';
+
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:great_movie/models/movie_list_model.dart';
 
-class MovieDetail extends StatefulWidget {
-  final Movies movies;
-
-  MovieDetail(this.movies);
+class MovieDetails extends StatefulWidget {
+  final String title;
+  final String imageUrl;
+  final String storyline;
+  final List generes;
+  final List actors;
+  MovieDetails(
+      {this.imageUrl, this.storyline, this.title, this.generes, this.actors});
   @override
-  _MovieDetailState createState() => _MovieDetailState();
+  _MovieDetailsState createState() => _MovieDetailsState();
 }
 
-class _MovieDetailState extends State<MovieDetail> {
-  String moviePoster;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    moviePoster = widget.movies.thumbnail.replaceAll("/thumb/", "/medium/");
-  }
-
+class _MovieDetailsState extends State<MovieDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Container(
-            alignment: Alignment.topCenter,
-            color: Colors.blue[300],
-            padding: EdgeInsets.only(top: Get.height / 20, right: 16),
-            child: Row(
+        appBar: AppBar(
+          title: Text(widget.title),
+          backgroundColor: Colors.black,
+        ),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            print(constraints.maxWidth);
+            return Stack(
               children: [
-                IconButton(
-                    icon: Icon(Icons.arrow_back_ios_rounded),
-                    onPressed: () {
-                      Get.back();
-                    }),
-                Spacer(),
-                Text(
-                  "${widget.movies.name} (${widget.movies.year})",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      shadows: [
-                        Shadow(
-                          color: Colors.black.withOpacity(0.1),
-                          offset: Offset(2, 2),
-                          blurRadius: 2,
-                        ),
-                      ],
-                      fontSize: 22,
-                      color: Colors.white),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: Get.height / 1.15,
-            padding: EdgeInsets.only(left: 16, right: 16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 7,
-                  offset: Offset(0, -4),
-                ),
-              ],
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(10),
-              ),
-            ),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: Get.height / 40,
-                  ),
-                  Container(
-                    height: Get.height / 3,
-                    decoration: BoxDecoration(boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        offset: Offset(2, 2),
-                        blurRadius: 7,
-                      ),
-                    ], color: Colors.grey[300]),
+                Hero(
+                  tag: widget.imageUrl,
+                  child: Container(
+                    width: constraints.maxWidth,
+                    height: constraints.maxHeight,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: NetworkImage(widget.imageUrl),
+                          fit: BoxFit.cover),
+                    ),
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        moviePoster,
-                        height: Get.height / 3,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: Get.height / 40,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Description",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.1),
-                              offset: Offset(2, 2),
-                              blurRadius: 2,
-                            ),
-                          ],
-                          fontSize: 22,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 10,
-                          decoration: BoxDecoration(
-                              color: Colors.blue[800],
-                              borderRadius: BorderRadius.circular(40),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  offset: Offset(0, 2),
-                                  blurRadius: 5,
-                                )
-                              ]),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            child: Text(
-                              widget.movies.description.length == 0
-                                  ? "Not Found"
-                                  : widget.movies.description,
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.blue[600],
-                              ),
-                            ),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaY: 7, sigmaX: 7),
+                        child: new Container(
+                          decoration: new BoxDecoration(
+                            color: Colors.black.withOpacity(0.4),
                           ),
-                        )
-                      ],
+                        ),
+                      ),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Text(
-                        "Genres",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.1),
-                              offset: Offset(2, 2),
-                              blurRadius: 2,
-                            ),
-                          ],
-                          fontSize: 22,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 10,
-                          decoration: BoxDecoration(
-                              color: Colors.blue[800],
-                              borderRadius: BorderRadius.circular(40),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  offset: Offset(0, 2),
-                                  blurRadius: 5,
-                                )
-                              ]),
-                        ),
-                      ),
-                    ],
-                  ),
-                  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: EdgeInsets.all(16),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Row(
+                ),
+                constraints.maxWidth >= 1000
+                    ? Row(
                         children: [
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: Colors.blue[600],
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            widget.movies.genres[index],
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  offset: Offset(2, 2),
-                                  blurRadius: 2,
+                          Expanded(
+                            child: ZoomIn(
+                              child: Container(
+                                height: constraints.maxHeight,
+                                padding:
+                                    EdgeInsets.all(constraints.maxWidth / 10),
+                                child: Image.network(
+                                  widget.imageUrl,
                                 ),
-                              ],
-                              fontSize: 18,
-                              color: Colors.blue[600],
+                              ),
                             ),
-                          )
+                          ),
+                          Expanded(
+                            child: Container(
+                                color: Colors.black.withOpacity(0.4),
+                                height: constraints.maxHeight,
+                                padding:
+                                    EdgeInsets.all(constraints.maxWidth / 10),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.black
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                FadeInUp(
+                                                  child: Text(
+                                                    "Actors : ",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: constraints
+                                                                .maxHeight /
+                                                            50),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return FadeInUp(
+                                                        child: Text(
+                                                          widget.actors[index],
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: constraints
+                                                                      .maxHeight /
+                                                                  50),
+                                                        ),
+                                                      );
+                                                    },
+                                                    itemCount:
+                                                        widget.generes.length,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.black
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                FadeInUp(
+                                                  child: Text(
+                                                    "Genres : ",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: constraints
+                                                                .maxHeight /
+                                                            50),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return FadeInUp(
+                                                        child: Text(
+                                                          widget.generes[index],
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: constraints
+                                                                      .maxHeight /
+                                                                  50),
+                                                        ),
+                                                      );
+                                                    },
+                                                    itemCount:
+                                                        widget.generes.length,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    FadeInRight(
+                                      child: Text(
+                                        widget.storyline,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize:
+                                                constraints.maxHeight / 50),
+                                      ),
+                                    )
+                                  ],
+                                )),
+                          ),
                         ],
-                      );
-                    },
-                    itemCount: widget.movies.genres.length,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Director",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.1),
-                              offset: Offset(2, 2),
-                              blurRadius: 2,
-                            ),
-                          ],
-                          fontSize: 22,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[800],
-                            borderRadius: BorderRadius.circular(40),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(0, 2),
-                                blurRadius: 5,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.blue[600],
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          widget.movies.director.length == 0
-                              ? "Not Found"
-                              : widget.movies.director,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(2, 2),
-                                blurRadius: 2,
+                      )
+                    : Column(
+                        children: [
+                          Expanded(
+                            child: ZoomIn(
+                              child: Container(
+                                padding:
+                                    EdgeInsets.all(constraints.maxWidth / 10),
+                                child: Image.network(
+                                  widget.imageUrl,
+                                ),
                               ),
-                            ],
-                            fontSize: 18,
-                            color: Colors.blue[600],
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Main Star",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.1),
-                              offset: Offset(2, 2),
-                              blurRadius: 2,
                             ),
-                          ],
-                          fontSize: 22,
-                          color: Colors.blue[800],
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                        child: Container(
-                          height: 10,
-                          decoration: BoxDecoration(
-                              color: Colors.blue[800],
-                              borderRadius: BorderRadius.circular(40),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  offset: Offset(0, 2),
-                                  blurRadius: 5,
-                                )
-                              ]),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.arrow_forward_ios_rounded,
-                          color: Colors.blue[600],
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          widget.movies.mainStar.length == 0
-                              ? "Not Found"
-                              : widget.movies.mainStar,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.1),
-                                offset: Offset(2, 2),
-                                blurRadius: 2,
-                              ),
-                            ],
-                            fontSize: 18,
-                            color: Colors.blue[600],
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                          Expanded(
+                            child: Container(
+                                alignment: Alignment.center,
+                                color: Colors.black.withOpacity(0.4),
+                                padding:
+                                    EdgeInsets.all(constraints.maxWidth / 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.black
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                FadeInUp(
+                                                  child: Text(
+                                                    "Actors : ",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: constraints
+                                                                .maxHeight /
+                                                            50),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return FadeInUp(
+                                                        child: Text(
+                                                          widget.actors[index],
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: constraints
+                                                                      .maxHeight /
+                                                                  50),
+                                                        ),
+                                                      );
+                                                    },
+                                                    itemCount:
+                                                        widget.generes.length,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.black
+                                                    .withOpacity(0.3),
+                                                borderRadius:
+                                                    BorderRadius.circular(5)),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                FadeInUp(
+                                                  child: Text(
+                                                    "Genres : ",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: constraints
+                                                                .maxHeight /
+                                                            50),
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: ListView.builder(
+                                                    shrinkWrap: true,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return FadeInUp(
+                                                        child: Text(
+                                                          widget.generes[index],
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: constraints
+                                                                      .maxHeight /
+                                                                  50),
+                                                        ),
+                                                      );
+                                                    },
+                                                    itemCount:
+                                                        widget.generes.length,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    FadeInUp(
+                                      child: Text(
+                                        widget.storyline,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize:
+                                                constraints.maxHeight / 50),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        ],
+                      )
+              ],
+            );
+          },
+        ));
   }
 }

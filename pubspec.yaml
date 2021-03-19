@@ -30,8 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.0
   get: ^3.26.0
-  animate_do: ^1.7.5
-
+  animate_do: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
